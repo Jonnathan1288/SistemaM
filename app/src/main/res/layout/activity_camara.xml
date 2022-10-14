@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Camara">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgVpicture"
+                android:layout_width="match_parent"
+                android:layout_height="409dp"
+                android:contentDescription="s"
+                app:srcCompat="@drawable/imagen"
+                tools:ignore="ImageContrastCheck"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="46dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/ibcamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="104dp"
+                    android:backgroundTint="@color/black"
+                    android:contentDescription="s"
+                    app:layout_constraintEnd_toStartOf="@+id/ibexitview"
+                    app:layout_constraintTop_toBottomOf="@+id/imgVpicture"
+                    app:srcCompat="@drawable/camara"
+                    tools:ignore="DuplicateSpeakableTextCheck,ImageContrastCheck" />
+
+                <ImageButton
+                    android:id="@+id/ibexitview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:backgroundTint="@color/black"
+                    android:contentDescription="w"
+                    app:layout_constraintTop_toBottomOf="@+id/imgVpicture"
+                    app:srcCompat="@drawable/salir"
+                    tools:ignore="ImageContrastCheck"
+                    tools:layout_editor_absoluteX="237dp" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

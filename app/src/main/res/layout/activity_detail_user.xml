@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailUser">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_person_black"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_overlay="true"
+            app:civ_border_width="1dp" />
+
+
+            <EditText
+                android:id="@+id/cedulaUC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profileIv"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/shape_rectangle"
+                android:hint="Cedula"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp" />
+
+            <!-- EditText: Telefono de Usuario-->
+            <EditText
+                android:id="@+id/nombreUC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cedulaU"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/shape_rectangle"
+                android:hint="Nombre"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp" />
+
+            <!-- EditText: Email de Usuario-->
+            <EditText
+                android:id="@+id/contraseniaUC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nombreU"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/shape_rectangle"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+
+            <!-- EditText: DOB de Usuario-->
+            <EditText
+                android:id="@+id/permisosUC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/shape_rectangle"
+                android:padding="10dp"
+                android:layout_below="@+id/contraseniaU"
+                android:inputType="textPersonName|textCapWords"
+                android:hint="Permisos"/>
+
+            <Button
+                android:id="@+id/btnActualizar"
+                android:text="Actualizar"
+                app:cornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="21dp"
+                android:layout_marginEnd="21dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#496BB5" />
+
+            <Button
+                android:id="@+id/btnElimiar"
+                android:text="ELIMINAR"
+                app:cornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="21dp"
+                android:layout_marginEnd="21dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#496BB5" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
