@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RegistroGT</string>
+    <string name="app_ci">CI</string>
+    <string name="app_nameap">Firts Name</string>
+    <string name="app_lastName">Last Name</string>
+    <string name="app_permission">Permission</string>
+    <string name="app_password">Password</string>
+    <string name="app_record">RECORD OF USERS</string>
+</resources>

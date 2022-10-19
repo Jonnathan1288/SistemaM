@@ -62,7 +62,7 @@ public class Menu extends AppCompatActivity {
         recordsRv.setAdapter(adapterRecord);
 
         //Establecer el numero de Registros
-       // actionBar.setSubtitle("Total: "+modeloUsuario.getRecordsCount(getApplicationContext()));
+        actionBar.setSubtitle("Total: "+modeloUsuario.getRecordsCount(getApplicationContext()));
     }
 
     private void searchRecords(String query){

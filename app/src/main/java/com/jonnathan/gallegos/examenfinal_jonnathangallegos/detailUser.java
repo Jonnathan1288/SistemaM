@@ -8,9 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,11 +22,14 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.jonnathan.gallegos.examenfinal_jonnathangallegos.Modelo.ModeloUsuario;
 
+import java.util.Arrays;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class detailUser extends AppCompatActivity {
 
-    private EditText cedula,nombre,contrasenia,permisos;
+    private EditText cedula,nombre,contrasenia;
+    private Spinner permisos;
     private Button btnActualiza, btnElimina;
 
     private AlertDialog alertDialog;
@@ -41,20 +46,23 @@ public class detailUser extends AppCompatActivity {
     }
 
     private void AsignacionVariables(){
+
+        //Metodo que me permite redondear una imagen view--------------------
         Drawable originalDrawable = getResources().getDrawable(R.drawable.mishi);
         Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
         RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+        //--------------
 
         cedula = (EditText) findViewById(R.id.cedulaUC);
         nombre = (EditText) findViewById(R.id.nombreUC);
         contrasenia =  (EditText) findViewById(R.id.contraseniaUC);
-        permisos = (EditText) findViewById(R.id.permisosUC);
+        permisos = (Spinner) findViewById(R.id.permisosUC);
         btnActualiza = (Button) findViewById(R.id.btnActualizar);
         btnElimina = (Button) findViewById(R.id.btnElimiar);
         imageView = findViewById(R.id.imageView);
 
-        //  imageView.setImageDrawable(roundedDrawable);
+        //  imageView.setImageDrawable(roundedDrawable); set the variable
         cedula.setEnabled(false);
 
     }
@@ -69,8 +77,26 @@ public class detailUser extends AppCompatActivity {
         cedula.setText(cedulaID);
         nombre.setText(nombres);
         contrasenia.setText(contra);
-        permisos.setText(permiso);
-        imageView.setImageURI(Uri.parse(fotoa));
+
+        int aux = 0;
+        String[] opc ={"Seleccione", "Administrador", "Coordinador", "Jefe de Área", "Solicitante"};
+        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this, R.layout.spinner_item_gt, opc);
+        permisos.setAdapter(adapter);
+
+        for(int i = 0; i<=opc.length; i++){
+            if(opc[i].equals(permiso)){
+                aux = i;
+                break;
+            }
+        }
+
+        permisos.setSelection(aux);
+
+        if (fotoa.equals("null")){
+            imageView.setImageResource(R.drawable.mishi);
+        }else {
+            imageView.setImageURI(Uri.parse(fotoa));
+        }
 
         Toast.makeText(this, "Lo que me esta llegando-> "+cedulaID, Toast.LENGTH_SHORT).show();
     }
@@ -154,7 +180,7 @@ public class detailUser extends AppCompatActivity {
         usuario.setCedula(cedula.getText().toString());
         usuario.setNombre(nombre.getText().toString());
         usuario.setContrasenia(contrasenia.getText().toString());
-        usuario.setPermisos(permisos.getText().toString());
+        usuario.setPermisos(permisos.getSelectedItem().toString());
 
         if(usuario.modificarPersona(getApplicationContext(), cedula.getText().toString())){
             Toast.makeText(getApplicationContext(), "El usuario se modifico satisfactoriamente", Toast.LENGTH_SHORT).show();

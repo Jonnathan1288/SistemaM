@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,35 +46,27 @@ public class AdapterRecord extends RecyclerView.Adapter<AdapterRecord.HolderReco
 
         Usuario model = recordsList.get(position);
         final int id = model.getId_usuario();
-        String cedula = model.getCedula();
-        String nombre = model.getNombre();
-        String contrasenia = model.getContrasenia();
-        String permisos = model.getPermisos();
-        String image = model.getFoto();
 
-        holder.cedula.setText(cedula);
-        holder.nombre.setText(nombre);
-        holder.contra.setText(contrasenia);
-        holder.permiso.setText(permisos);
-        if (image.equals("null")){
-            // no hay imagen en el registro, establecer predeterminado
-            holder.profileIv.setImageResource(R.drawable.ic_person_black);
+        holder.cedula.setText(model.getCedula());
+        holder.nombre.setText(model.getNombre());
+        holder.contra.setText(model.getContrasenia());
+        holder.permiso.setText(model.getPermisos());
+
+        if (model.getFoto().equals("null")){
+            holder.profileIv.setImageResource(R.drawable.mishi);
         }else {
-            holder.profileIv.setImageURI(Uri.parse(image));
+            holder.profileIv.setImageURI(Uri.parse(model.getFoto()));
         }
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Pass record id to next activity to show details of thet record
-
                 Intent intent = new Intent(context, detailUser.class);
-                intent.putExtra("CEDULA", cedula);
-                intent.putExtra("NOMBRE", nombre);
-                intent.putExtra("CONTRA", contrasenia);
-                intent.putExtra("PERMISO", permisos);
-                intent.putExtra("FOTO", image);
+                intent.putExtra("CEDULA", model.getCedula());
+                intent.putExtra("NOMBRE", model.getNombre());
+                intent.putExtra("CONTRA", model.getContrasenia());
+                intent.putExtra("PERMISO", model.getPermisos());
+                intent.putExtra("FOTO", model.getFoto());
                 context.startActivity(intent);
             }
         });
@@ -81,14 +74,14 @@ public class AdapterRecord extends RecyclerView.Adapter<AdapterRecord.HolderReco
         holder.moreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FALTA
+                Toast.makeText(context, "Holaaaaaaaaaa", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return recordsList.size();// devuelve el tamaño de la lista / número o registros
+        return recordsList.size();
     }
 
     class HolderRecord extends RecyclerView.ViewHolder{

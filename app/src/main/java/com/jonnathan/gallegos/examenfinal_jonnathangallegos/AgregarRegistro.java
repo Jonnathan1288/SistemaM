@@ -13,15 +13,13 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,18 +27,6 @@ import com.jonnathan.gallegos.examenfinal_jonnathangallegos.Modelo.ModeloUsuario
 import com.jonnathan.gallegos.examenfinal_jonnathangallegos.Modelo.Usuario;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
@@ -50,7 +36,8 @@ public class AgregarRegistro extends AppCompatActivity {
 
     //View
     private CircleImageView profileIv;
-    private EditText cedula,nombre,contrasenia,permisos;
+    private EditText cedula,nombre,contrasenia;
+    private Spinner permisos;
 
     private FloatingActionButton saveBtn, calcelBtn;
 
@@ -82,10 +69,18 @@ public class AgregarRegistro extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
         AsignacionVariables();
+        stringOfSpinner();
         EventButton();
 
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    }
+
+    private void stringOfSpinner(){
+        String[] opc ={"Seleccione", "Administrador", "Coordinador", "Jefe de Área", "Solicitante"};
+        //ArrayAdapter <String> adapter =new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opc);
+        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this, R.layout.spinner_item_gt, opc);
+        permisos.setAdapter(adapter);
     }
 
     private void AsignacionVariables(){
@@ -93,7 +88,7 @@ public class AgregarRegistro extends AppCompatActivity {
         cedula = (EditText) findViewById(R.id.cedulaU);
         nombre = (EditText) findViewById(R.id.nombreU);
         contrasenia =  (EditText) findViewById(R.id.contraseniaU);
-        permisos = (EditText) findViewById(R.id.permisosU);
+        permisos = (Spinner) findViewById(R.id.permisosU);
         saveBtn = findViewById(R.id.saveBtn);
         calcelBtn = findViewById(R.id.btnCancelarSave);
     }
@@ -110,11 +105,11 @@ public class AgregarRegistro extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imageUri.toString().isEmpty()){
+                if (cedula.getText().toString().isEmpty() || nombre.getText().toString().isEmpty() || contrasenia.getText().toString().isEmpty() || permisos.getSelectedItem().toString().equals("Seleccione")) {
                     builder = new AlertDialog.Builder(AgregarRegistro.this);
-                    builder.setMessage("Debe ingresar la foto.");  // set message
+                    builder.setTitle("Datos incompletos"); // set Title
+                    builder.setMessage("Debe ingresar todos los campos solicitados.");  // set message
                     builder.setCancelable(true); //  Sets whether the dialog is cancelable or not
-
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -123,22 +118,10 @@ public class AgregarRegistro extends AppCompatActivity {
                     });
                     alertDialog = builder.create();
                     alertDialog.show();
-                }else {
-                    if (cedula.getText().toString().isEmpty() || nombre.getText().toString().isEmpty() || contrasenia.getText().toString().isEmpty() || permisos.getText().toString().isEmpty()) {
-                        builder = new AlertDialog.Builder(AgregarRegistro.this);
-                        builder.setTitle("Datos incompletos"); // set Title
-                        builder.setMessage("Debe ingresar todos los campos solicitados.");  // set message
-                        builder.setCancelable(true); //  Sets whether the dialog is cancelable or not
-
-                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                alertDialog.cancel();
-                            }
-                        });
-                        alertDialog = builder.create();
-                        alertDialog.show();
-                    } else {
+                } else {
+                    if(imageUri == null) {
+                        verificationImageNull();
+                    }else{
                         CrearUser();
                     }
                 }
@@ -180,13 +163,40 @@ public class AgregarRegistro extends AppCompatActivity {
 
     }
 
+
+    private void verificationImageNull(){
+        builder = new AlertDialog.Builder(AgregarRegistro.this);
+        builder.setMessage("Seguro en no ingresar la foto?");  // set message
+        builder.setCancelable(true); //  Sets whether the dialog is cancelable or not
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.cancel();
+                        CrearUser();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.cancel();
+                    }
+                });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     private void CrearUser(){
         ModeloUsuario usuario = new ModeloUsuario();
         usuario.setCedula(cedula.getText().toString());
         usuario.setNombre(nombre.getText().toString());
         usuario.setContrasenia(contrasenia.getText().toString());
-        usuario.setPermisos(permisos.getText().toString());
-        usuario.setFoto(imageUri.toString());
+        usuario.setPermisos(permisos.getSelectedItem().toString());
+        if(imageUri == null){
+            usuario.setFoto(null);
+        }else{
+            usuario.setFoto(imageUri.toString());
+        }
 
         if(cedulaRepetida(cedula.getText().toString())){
             Toast.makeText(getApplicationContext(), "La cedula ya esta en la BD", Toast.LENGTH_SHORT).show();

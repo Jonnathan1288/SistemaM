@@ -18,9 +18,9 @@ public class SitemaSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_USUARIO + "(" +
                 "id_persona INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "ci TEXT NOT NULL," +
-                "nombre TEXT NOT NULL," +
-                "contrasenia TEXT NOT NULL," +
+                "ci TEXT," +
+                "nombre TEXT," +
+                "contrasenia TEXT," +
                 "permisos TEXT,"+
                 "foto TEXT)");
     }

@@ -56,7 +56,7 @@ public class ModeloUsuario extends Usuario{
 
     public ArrayList<Usuario> searchWithCI(Context person, String cedulau){
         ArrayList<Usuario> listarUsuario = new ArrayList<>();
-        SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, "t_usuario", null, 1);
+        SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, "bd_usuario", null, 1);
         Cursor cursobd = cp.getReadableDatabase().rawQuery("select * from t_usuario where cedula = '"+cedulau+"'", null);
 
         if(cursobd.moveToFirst()){
@@ -120,6 +120,15 @@ public class ModeloUsuario extends Usuario{
             }while (cursobd.moveToNext());
         }
         return listarUsuario;
+    }
+
+
+    public int getRecordsCount(Context person){
+        SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, "bd_usuario", null, 1);
+        Cursor cursobd = cp.getReadableDatabase().rawQuery("select * from t_usuario", null);
+        int count = cursobd.getCount();
+        cursobd.close();
+        return count;
     }
 
 }

@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AgregarRegistro">
 
-    <!-- ImageView: Imagen Perfil-->
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="345dp"
@@ -17,11 +15,12 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="34dp"
-        android:text="REGISTRO DE USUARIOS"
+        android:text="@string/app_record"
         android:textAlignment="center"
         android:textSize="20dp"
         android:textStyle="bold" />
 
+    <!--Imagen de el usuario, round-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileIv"
         android:layout_width="140dp"
@@ -29,13 +28,13 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_photo_black"
+        android:src="@drawable/ca"
         app:civ_border_color="@color/colorGray1"
         app:civ_border_overlay="true"
         app:civ_border_width="1dp"
         tools:ignore="MissingConstraints" />
 
-    <!-- EditText: Nombre de Usuario-->
+    <!-- EditText: Cédula-->
     <EditText
         android:id="@+id/cedulaU"
         android:layout_width="match_parent"
@@ -45,11 +44,13 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/shape_rectangle"
-        android:hint="Cedula"
+        android:hint="@string/app_ci"
         android:inputType="textPersonName|textCapWords"
-        android:padding="10dp" />
+        android:minHeight="48dp"
+        android:padding="10dp"
+        tools:ignore="TextContrastCheck" />
 
-    <!-- EditText: Telefono de Usuario-->
+    <!-- EditText: Firts name-->
     <EditText
         android:id="@+id/nombreU"
         android:layout_width="match_parent"
@@ -59,11 +60,12 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/shape_rectangle"
-        android:hint="Nombre"
+        android:hint="@string/app_nameap"
         android:inputType="textPersonName|textCapWords"
+        android:minHeight="48dp"
         android:padding="10dp" />
 
-    <!-- EditText: Email de Usuario-->
+    <!-- EditText: Password-->
     <EditText
         android:id="@+id/contraseniaU"
         android:layout_width="match_parent"
@@ -73,27 +75,26 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/shape_rectangle"
-        android:hint="Contraseña"
+        android:hint="@string/app_password"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         android:padding="10dp" />
 
-    <!-- EditText: DOB de Usuario-->
-    <EditText
+    <Spinner
         android:id="@+id/permisosU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/contraseniaU"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
         android:background="@drawable/shape_rectangle"
-        android:padding="10dp"
-        android:layout_below="@+id/contraseniaU"
-        android:inputType="textPersonName|textCapWords"
-        android:hint="Permisos"/>
+        android:hint="@string/app_permission"
+        android:minHeight="48dp"
+        android:padding="10dp" />
 
-    <!-- EditText: Bio Info de Usuario-->
 
-    <!-- FAB: Agregar Registro-->
+    <!-- Add record-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveBtn"
         android:layout_width="wrap_content"
@@ -109,6 +110,10 @@
         android:layout_marginBottom="20dp"
         android:src="@drawable/ic_done_white" />
 
+
+
+
+    <!-- Cancel record-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnCancelarSave"
         android:backgroundTint="@color/red"
