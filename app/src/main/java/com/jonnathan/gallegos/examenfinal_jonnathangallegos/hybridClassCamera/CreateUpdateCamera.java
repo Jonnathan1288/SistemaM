@@ -26,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CreateUpdateCamera extends AppCompatActivity {
 
     private CircleImageView profileIv;
-    
+
     //Actionbar
     private ActionBar actionBar;
     //Permiso de la clase Constants
@@ -43,6 +43,7 @@ public class CreateUpdateCamera extends AppCompatActivity {
 
     private AgregarRegistro agregarRegistro;
 
+    //siiiiiiiiiiiii
 
     private void imagePickDialog(){
         // opciones para mostrar en el diálogo
