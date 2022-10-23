@@ -6,5 +6,6 @@
     <string name="app_permission">Permiso</string>
     <string name="app_password">Contraseña</string>
     <string name="app_record">REGISTRO DE USUARIOS</string>
+    <string name="Information_User">INFORMACIÓN DEL USUARIO</string>
 
 </resources>

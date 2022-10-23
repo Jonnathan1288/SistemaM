@@ -7,4 +7,5 @@
     <string name="app_permission">Permission</string>
     <string name="app_password">Password</string>
     <string name="app_record">RECORD OF USERS</string>
+    <string name="Information_User">INFORMATION OF THE USER</string>
 </resources>

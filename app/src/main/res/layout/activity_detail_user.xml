@@ -26,89 +26,148 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/ic_person_black"
             app:civ_border_color="@color/colorWhite"
             app:civ_border_overlay="true"
             app:civ_border_width="1dp" />
 
 
-            <EditText
-                android:id="@+id/cedulaUC"
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/profileIv"
+                android:stretchColumns="2"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/shape_rectangle"
-                android:hint="Cedula"
-                android:inputType="textPersonName|textCapWords"
-                android:padding="10dp" />
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="15dp">
 
-            <!-- EditText: Telefono de Usuario-->
-            <EditText
-                android:id="@+id/nombreUC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cedulaU"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/shape_rectangle"
-                android:hint="Nombre"
-                android:inputType="textPersonName|textCapWords"
-                android:padding="10dp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="15dp">
 
-            <!-- EditText: Email de Usuario-->
-            <EditText
-                android:id="@+id/contraseniaUC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/nombreU"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/shape_rectangle"
-                android:hint="Contraseña"
-                android:inputType="textPassword"
-                android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/Information_User"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </TableRow>
 
-            <!-- EditText: DOB de Usuario-->
-            <Spinner
-                android:id="@+id/permisosUC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/shape_rectangle"
-                android:hint="@string/app_permission"
-                android:minHeight="48dp"
-                android:padding="10dp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        android:id="@+id/cedulationJeje"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_ci"
+                        android:text="@string/app_ci"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cedulaUC"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_ci"
+                        android:textAlignment="center" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        android:id="@+id/nombreuser"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_nameap"
+                        android:text="@string/app_nameap"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/nombreUC"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_nameap"
+                        android:textAlignment="center" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        android:id="@+id/contrau"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_password"
+                        android:text="@string/app_password"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/contraseniaUC"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_password"
+                        android:textAlignment="center" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/permis"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_permission"
+                        android:text="@string/app_permission"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/permisosUC"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/app_permission"
+                        android:textAlignment="center" />
+                </TableRow>
+            </TableLayout>
 
             <Button
                 android:id="@+id/btnActualizar"
-                android:text="Actualizar"
+                android:text="Aceptar"
                 app:cornerRadius="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginStart="21dp"
                 android:layout_marginEnd="21dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="25dp"
                 android:backgroundTint="#496BB5" />
 
-            <Button
-                android:id="@+id/btnElimiar"
-                android:text="ELIMINAR"
-                app:cornerRadius="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginStart="21dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="#496BB5" />
+
 
         </LinearLayout>
 

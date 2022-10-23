@@ -14,10 +14,6 @@ public class ModeloUsuario extends Usuario{
     public ModeloUsuario() {
     }
 
-    public ModeloUsuario(String cedula, String nombre, String contrasenia, String permisos, String foto) {
-        super(cedula, nombre, contrasenia, permisos, foto);
-    }
-
     public ModeloUsuario(int id_usuario, String cedula, String nombre, String contrasenia, String permisos, String foto) {
         super(id_usuario, cedula, nombre, contrasenia, permisos, foto);
     }
@@ -34,9 +30,9 @@ public class ModeloUsuario extends Usuario{
         }
     }
 
-    public ArrayList<Usuario> Listar(Context person, String nombreBD, SQLiteDatabase.CursorFactory valor, int version){
+    public ArrayList<Usuario> Listar(Context person){
         ArrayList<Usuario> listarUsuario = new ArrayList<>();
-        SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, nombreBD, valor, version);
+        SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, "bd_usuario", null, 1);
         Cursor cursobd = cp.getReadableDatabase().rawQuery("select * from t_usuario", null);
 
         if(cursobd.moveToFirst()){
@@ -87,12 +83,24 @@ public class ModeloUsuario extends Usuario{
         }
     }
 
-    public boolean eliminarUsuario(Context person, String nombreBD, SQLiteDatabase.CursorFactory valor, int versionString, String ci){
+    public boolean modificarPersonaNF(Context user, String ci){
         try {
-            SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, nombreBD, valor, versionString);
+            SitemaSQLiteHelper cp = new SitemaSQLiteHelper(user, "bd_usuario", null, 1);
+            String sql = "UPDATE t_usuario set nombre='"+getNombre()+"', contrasenia='"+getContrasenia()+"', permisos='"+getPermisos()+"', foto= '"+getFoto()+"' where ci = '"+ci+"'";
+            cp.getWritableDatabase().execSQL(sql);
+            return true;
+        }catch (Exception e){
+            e.toString();
+            return false;
+        }
+    }
+
+    public boolean eliminarUsuario(Context context, String ci){
+        try {
+            SitemaSQLiteHelper cp = new SitemaSQLiteHelper(context, "bd_usuario", null, 1);
             SQLiteDatabase db = cp.getWritableDatabase();
             String sql = "DELETE FROM t_usuario WHERE ci = '" + ci + "'";
-            Toast.makeText(person, ""+sql, Toast.LENGTH_SHORT).show();
+            System.out.println(sql);
             db.execSQL(sql);
             return true;
         }catch (Exception e){
@@ -121,7 +129,6 @@ public class ModeloUsuario extends Usuario{
         }
         return listarUsuario;
     }
-
 
     public int getRecordsCount(Context person){
         SitemaSQLiteHelper cp = new SitemaSQLiteHelper(person, "bd_usuario", null, 1);

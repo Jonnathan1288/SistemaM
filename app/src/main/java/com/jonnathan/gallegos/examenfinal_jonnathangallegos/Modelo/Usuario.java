@@ -11,13 +11,6 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String cedula, String nombre, String contrasenia, String permisos, String foto) {
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.contrasenia = contrasenia;
-        this.foto= foto;
-    }
-
     public Usuario(int id_usuario, String cedula, String nombre, String contrasenia, String permisos, String foto) {
         this.id_usuario = id_usuario;
         this.cedula = cedula;

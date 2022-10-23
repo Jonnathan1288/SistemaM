@@ -40,7 +40,6 @@ public class AgregarRegistro extends AppCompatActivity {
     private Spinner permisos;
 
     private FloatingActionButton saveBtn, calcelBtn;
-
     //Actionbar
     private ActionBar actionBar;
     //Permiso de la clase Constants
@@ -57,10 +56,20 @@ public class AgregarRegistro extends AppCompatActivity {
 
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
+
+    String[] opc= null;
+
+    private boolean editUser = false;
+
+    private String mensajeTextoEdit = "Seguro en cancelar ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_registro);
+
+        opc = new String[]{"Seleccione", "Administrador", "Coordinador", "Jefe de Área", "Solicitante"};
+
         actionBar = getSupportActionBar();
         //Titulo
         actionBar.setTitle("Agregar Registro");
@@ -72,13 +81,52 @@ public class AgregarRegistro extends AppCompatActivity {
         stringOfSpinner();
         EventButton();
 
+        Intent intent = getIntent();
+        editUser = intent.getBooleanExtra("EDIT_USER", false);
+
+        if(editUser){
+            actionBar.setTitle("Modificar Registro");
+            intent();
+        }
+
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
+    private void intent(){
+        cedula.setEnabled(false);
+        Intent intent = getIntent();
+
+        Toast.makeText(this, "Lo que me esta llegando-> "+intent.getStringExtra("CEDULA"), Toast.LENGTH_SHORT).show();
+
+        cedula.setText(intent.getStringExtra("CEDULA"));
+        nombre.setText(intent.getStringExtra("NOMBRE"));
+        contrasenia.setText(intent.getStringExtra("CONTRA"));
+        String permiso = intent.getStringExtra("PERMISO");
+        String fotoa = intent.getStringExtra("FOTO");
+
+        int aux = 0;
+        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this, R.layout.spinner_item_gt, opc);
+        permisos.setAdapter(adapter);
+
+        for(int i = 0; i<=opc.length; i++){
+            if(opc[i].equals(permiso)){
+                aux = i;
+                break;
+            }
+        }
+
+        permisos.setSelection(aux);
+
+        if (fotoa.equals("null")){
+            profileIv.setImageResource(R.drawable.mishi);
+        }else {
+            profileIv.setImageURI(Uri.parse(fotoa));
+        }
+
+    }
+
     private void stringOfSpinner(){
-        String[] opc ={"Seleccione", "Administrador", "Coordinador", "Jefe de Área", "Solicitante"};
-        //ArrayAdapter <String> adapter =new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opc);
         ArrayAdapter<String> adapter =new ArrayAdapter<String>(this, R.layout.spinner_item_gt, opc);
         permisos.setAdapter(adapter);
     }
@@ -119,11 +167,35 @@ public class AgregarRegistro extends AppCompatActivity {
                     alertDialog = builder.create();
                     alertDialog.show();
                 } else {
-                    if(imageUri == null) {
-                        verificationImageNull();
+                    if(editUser){
+                        builder = new AlertDialog.Builder(AgregarRegistro.this);
+                        builder.setTitle("Modificar"); // set Title
+                        builder.setMessage("Confirmar cambios");  // set message
+                        builder.setCancelable(true); //  Sets whether the dialog is cancelable or not
+
+                        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alertDialog.cancel();
+                                        CreateOrUpdateUser();
+                                    }
+                                })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alertDialog.cancel();
+                                    }
+                                });
+                        alertDialog = builder.create();
+                        alertDialog.show();
                     }else{
-                        CrearUser();
+                        if(imageUri == null) {
+                            verificationImageNull();
+                        }else{
+                            CreateOrUpdateUser();
+                        }
                     }
+
                 }
             }
         });
@@ -135,9 +207,15 @@ public class AgregarRegistro extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), Menu.class);
                     startActivity(intent);
                 } else {
+                    if(actionBar.getTitle().toString().equals("Modificar Registro")){
+                        mensajeTextoEdit = mensajeTextoEdit + "la modificación?";
+                    }else{
+                        mensajeTextoEdit = mensajeTextoEdit + "el registro?";
+                    }
+
                     builder = new AlertDialog.Builder(AgregarRegistro.this);
                     builder.setTitle("Cancelar"); // set Title
-                    builder.setMessage("Seguro en cancelar el registro?");  // set message
+                    builder.setMessage(mensajeTextoEdit);  // set message
                     builder.setCancelable(true); //  Sets whether the dialog is cancelable or not
 
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -160,10 +238,9 @@ public class AgregarRegistro extends AppCompatActivity {
             }
         });
 
-
     }
 
-
+    //Verificación si la imagen eseta null  para mandar un Warning..
     private void verificationImageNull(){
         builder = new AlertDialog.Builder(AgregarRegistro.this);
         builder.setMessage("Seguro en no ingresar la foto?");  // set message
@@ -173,7 +250,7 @@ public class AgregarRegistro extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alertDialog.cancel();
-                        CrearUser();
+                        CreateOrUpdateUser();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -186,7 +263,8 @@ public class AgregarRegistro extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void CrearUser(){
+    //Metodo que permite la creación u modificación dependiento del control..
+    private void CreateOrUpdateUser(){
         ModeloUsuario usuario = new ModeloUsuario();
         usuario.setCedula(cedula.getText().toString());
         usuario.setNombre(nombre.getText().toString());
@@ -198,24 +276,49 @@ public class AgregarRegistro extends AppCompatActivity {
             usuario.setFoto(imageUri.toString());
         }
 
-        if(cedulaRepetida(cedula.getText().toString())){
-            Toast.makeText(getApplicationContext(), "La cedula ya esta en la BD", Toast.LENGTH_SHORT).show();
-        }else{
-            if(usuario.guardarUsuario(getApplicationContext(), "bd_usuario", null, 1)){
-                Toast.makeText(getApplicationContext(), "La persona se creo correctamente", Toast.LENGTH_SHORT).show();
-                Intent inte = new Intent(getApplicationContext(), Menu.class);
-                startActivity(inte);
-                finish();
+        if(editUser){
+            if(imageUri == null){
+                if(usuario.modificarPersona(getApplicationContext(), cedula.getText().toString())){
+                    Toast.makeText(getApplicationContext(), "El usuario se modifico satisfactoriamente", Toast.LENGTH_SHORT).show();
+                    Intent inte = new Intent(getApplicationContext(), Menu.class);
+                    startActivity(inte);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "No se pudo modificar el usuario", Toast.LENGTH_SHORT).show();
+                }
             }else{
-                Toast.makeText(getApplicationContext(), "No se pudo crear la persona.", Toast.LENGTH_SHORT).show();
+                if(usuario.modificarPersonaNF(getApplicationContext(), cedula.getText().toString())){
+                    Toast.makeText(getApplicationContext(), "El usuario se modifico satisfactoriamente", Toast.LENGTH_SHORT).show();
+                    Intent inte = new Intent(getApplicationContext(), Menu.class);
+                    startActivity(inte);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "No se pudo modificar el usuario", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }else {
+
+            if (cedulaRepetida(cedula.getText().toString())) {
+                Toast.makeText(getApplicationContext(), "La cedula ya esta en la BD", Toast.LENGTH_SHORT).show();
+            } else {
+                if (usuario.guardarUsuario(getApplicationContext(), "bd_usuario", null, 1)) {
+                    Toast.makeText(getApplicationContext(), "La persona se creo correctamente", Toast.LENGTH_SHORT).show();
+                    Intent inte = new Intent(getApplicationContext(), Menu.class);
+                    startActivity(inte);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se pudo crear la persona.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
     }
 
+    //Método que verifica si la cédula que va ingresar ya se encuentra en la BDA..
     private boolean cedulaRepetida(String ci){
         ModeloUsuario usuario = new ModeloUsuario();
-        List<Usuario> listap = usuario.Listar(getApplicationContext(), "bd_usuario", null, 1);
+        List<Usuario> listap = usuario.Listar(getApplicationContext());
         for (int i = 0; i < listap.size(); i++){
             if(listap.get(i).getCedula().equals(ci)){
                 return true;
@@ -224,6 +327,7 @@ public class AgregarRegistro extends AppCompatActivity {
         return false;
     }
 
+    // Dese aqui vamos a ver que pasa y si podemos tener acceso a la camera.
     private void imagePickDialog(){
         // opciones para mostrar en el diálogo
         String[] options = {"Camara", "Galeria"};
